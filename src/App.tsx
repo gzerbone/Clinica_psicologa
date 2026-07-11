@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Instagram, ArrowUp, Menu, X } from 'lucide-react';
 import heroImage from './assets/images/hero/barbara-hero.webp';
+import heroImageSm from './assets/images/hero/barbara-hero-sm.webp';
 import aboutImage from './assets/images/about/barbara-sobre.webp';
 
 const SectionDivider = () => (
@@ -194,43 +195,43 @@ export default function App() {
       </nav>
 
       <main id="top" className="relative">
-        {/* Animated Mesh Background Effects */}
-        <div 
-          className="fixed rounded-full pointer-events-none z-[0]"
-          style={{ 
-            top: MESH_CONFIG.topLeft.top, 
-            left: MESH_CONFIG.topLeft.left, 
-            width: MESH_CONFIG.topLeft.size, 
-            height: MESH_CONFIG.topLeft.size, 
-            backgroundColor: MESH_CONFIG.topLeft.color, 
-            opacity: MESH_CONFIG.topLeft.opacity, 
-            filter: `blur(${MESH_CONFIG.topLeft.blur})` 
+        {/* Mesh de fundo — blur controlado via CSS (mais leve no mobile) */}
+        <div
+          className="mesh-orb mesh-orb-tl"
+          style={{
+            top: MESH_CONFIG.topLeft.top,
+            left: MESH_CONFIG.topLeft.left,
+            width: MESH_CONFIG.topLeft.size,
+            height: MESH_CONFIG.topLeft.size,
+            backgroundColor: MESH_CONFIG.topLeft.color,
+            ['--mesh-opacity' as string]: MESH_CONFIG.topLeft.opacity,
+            ['--mesh-blur' as string]: MESH_CONFIG.topLeft.blur,
           }}
-        ></div>
-        <div 
-          className="fixed rounded-full pointer-events-none z-[0]"
-          style={{ 
-            bottom: MESH_CONFIG.bottomRight.bottom, 
-            right: MESH_CONFIG.bottomRight.right, 
-            width: MESH_CONFIG.bottomRight.size, 
-            height: MESH_CONFIG.bottomRight.size, 
-            backgroundColor: MESH_CONFIG.bottomRight.color, 
-            opacity: MESH_CONFIG.bottomRight.opacity, 
-            filter: `blur(${MESH_CONFIG.bottomRight.blur})` 
+        />
+        <div
+          className="mesh-orb mesh-orb-br"
+          style={{
+            bottom: MESH_CONFIG.bottomRight.bottom,
+            right: MESH_CONFIG.bottomRight.right,
+            width: MESH_CONFIG.bottomRight.size,
+            height: MESH_CONFIG.bottomRight.size,
+            backgroundColor: MESH_CONFIG.bottomRight.color,
+            ['--mesh-opacity' as string]: MESH_CONFIG.bottomRight.opacity,
+            ['--mesh-blur' as string]: MESH_CONFIG.bottomRight.blur,
           }}
-        ></div>
-        <div 
-          className="fixed rounded-full pointer-events-none z-[0]"
-          style={{ 
-            top: MESH_CONFIG.midRight.top, 
-            right: MESH_CONFIG.midRight.right, 
-            width: MESH_CONFIG.midRight.size, 
-            height: MESH_CONFIG.midRight.size, 
-            backgroundColor: MESH_CONFIG.midRight.color, 
-            opacity: MESH_CONFIG.midRight.opacity, 
-            filter: `blur(${MESH_CONFIG.midRight.blur})` 
+        />
+        <div
+          className="mesh-orb mesh-orb-mr"
+          style={{
+            top: MESH_CONFIG.midRight.top,
+            right: MESH_CONFIG.midRight.right,
+            width: MESH_CONFIG.midRight.size,
+            height: MESH_CONFIG.midRight.size,
+            backgroundColor: MESH_CONFIG.midRight.color,
+            ['--mesh-opacity' as string]: MESH_CONFIG.midRight.opacity,
+            ['--mesh-blur' as string]: MESH_CONFIG.midRight.blur,
           }}
-        ></div>
+        />
 
         <section className="hero">
           <div className="wrap hero-grid">
@@ -251,20 +252,25 @@ export default function App() {
               </div>
             </div>
             <div className="hero-visual">
-              {/* Decorative Glass Glow Behind Blob */}
-              <div 
-                className="absolute inset-0 bg-gradient-to-br from-[#8C9381] to-[#B7C0C7] transform scale-110 rounded-full pointer-events-none"
-                style={{ 
-                  opacity: MESH_CONFIG.blobGlow.opacity, 
-                  filter: `blur(${MESH_CONFIG.blobGlow.blur})` 
+              <div
+                className="blob-glow absolute inset-0 bg-gradient-to-br from-[#8C9381] to-[#B7C0C7] transform scale-110 rounded-full pointer-events-none"
+                style={{
+                  ['--mesh-opacity' as string]: MESH_CONFIG.blobGlow.opacity,
+                  ['--mesh-blur' as string]: MESH_CONFIG.blobGlow.blur,
                 }}
-              ></div>
-              
+              />
+
               <div className="blob">
-                <img 
+                <img
                   src={heroImage}
-                  alt="Retrato profissional da neuropsicóloga Bárbara Badaró" 
+                  srcSet={`${heroImageSm} 640w, ${heroImage} 900w`}
+                  sizes="(max-width: 600px) 255px, (max-width: 960px) 300px, min(28vw, 420px)"
+                  width={420}
+                  height={530}
+                  alt="Retrato profissional da neuropsicóloga Bárbara Badaró"
                   className="w-full h-full object-cover"
+                  fetchPriority="high"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -277,7 +283,14 @@ export default function App() {
           <div className="wrap sobre-grid">
             <div className="reveal-left">
               <div className="sobre-portrait">
-                <img src={aboutImage} alt="Bárbara Badaró em atendimento" />
+                <img
+                  src={aboutImage}
+                  alt="Bárbara Badaró em atendimento"
+                  width={640}
+                  height={800}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             </div>
             <div className="reveal-right">

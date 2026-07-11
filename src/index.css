@@ -23,6 +23,22 @@
   --blur-card: 50px;        /* cards de abordagem e depoimentos */
 }
 
+/* Mesh de fundo — blur via variável para poder aliviar no mobile */
+.mesh-orb{
+  position: fixed;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--mesh-opacity, 0.45);
+  filter: blur(var(--mesh-blur, 140px));
+  will-change: auto;
+  contain: strict;
+}
+.blob-glow{
+  opacity: var(--mesh-opacity, 0.4);
+  filter: blur(var(--mesh-blur, 48px));
+}
+
 *{ margin:0; padding:0; box-sizing:border-box; }
 
 html{ scroll-behavior:smooth; }
@@ -747,6 +763,24 @@ footer > .wrap {
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width: 960px){
+  /* Blurs altos destroem FPS/tempo de paint no mobile */
+  .mesh-orb{
+    --mesh-blur: 48px !important;
+    --mesh-opacity: 0.28 !important;
+    width: 320px !important;
+    height: 320px !important;
+  }
+  .mesh-orb-mr{ display: none; }
+  .blob-glow{
+    --mesh-blur: 24px !important;
+    --mesh-opacity: 0.28 !important;
+  }
+  :root{
+    --blur-nav: 12px;
+    --blur-section: 8px;
+    --blur-card: 16px;
+  }
+
   .hero{
     min-height:auto;
     padding:110px 0 56px;

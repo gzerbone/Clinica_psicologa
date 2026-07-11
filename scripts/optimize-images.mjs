@@ -11,9 +11,9 @@ const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PN
 
 /** Defaults por pasta (largura máxima + qualidade WebP). */
 const FOLDER_DEFAULTS = {
-  hero: { width: 1100, quality: 92 },
-  about: { width: 900, quality: 84 },
-  og: { width: 1200, quality: 86 },
+  hero: { width: 900, quality: 80 },
+  about: { width: 800, quality: 78 },
+  og: { width: 1200, quality: 82 },
 };
 
 const FALLBACK_DEFAULTS = { width: 1920, quality: 80 };
@@ -26,20 +26,34 @@ const MANUAL_JOBS = [
   {
     input: path.resolve('assets/raw/images/hero/hero.JPG'),
     output: path.resolve('src/assets/images/hero/barbara-hero.webp'),
-    width: 1100,
-    quality: 92,
+    width: 900,
+    quality: 80,
   },
   {
     input: path.resolve('assets/raw/images/about/barbara-sobre.jpeg'),
     output: path.resolve('src/assets/images/about/barbara-sobre.webp'),
-    width: 900,
-    quality: 84,
+    width: 800,
+    quality: 78,
   },
   {
     input: path.resolve('assets/raw/images/og/og-image.jpeg'),
     output: path.resolve('public/images/og/og-image.webp'),
     width: 1200,
-    quality: 86,
+    quality: 82,
+  },
+];
+
+/**
+ * Variantes derivadas do WebP já otimizado (útil no CI sem raw).
+ * Hero mobile ~640px cobre até 2x em blobs de ~300px.
+ */
+const DERIVED_JOBS = [
+  {
+    input: path.resolve('src/assets/images/hero/barbara-hero.webp'),
+    output: path.resolve('src/assets/images/hero/barbara-hero-sm.webp'),
+    width: 640,
+    quality: 76,
+    force: true,
   },
 ];
 
@@ -167,13 +181,15 @@ async function optimizeToWebp({ input, output, width, quality }) {
 }
 
 async function run() {
-  const jobs = await buildJobList();
+  const jobs = [...(await buildJobList()), ...DERIVED_JOBS];
   let optimized = 0;
   let skipped = 0;
 
   for (const job of jobs) {
     const relativeOutput = path.relative(process.cwd(), job.output);
-    const decision = await shouldOptimize(job.input, job.output);
+    const decision = job.force
+      ? { run: await fileExists(job.input), reason: 'derived' }
+      : await shouldOptimize(job.input, job.output);
 
     if (decision.reason === 'missing-both') {
       throw new Error(
@@ -193,7 +209,12 @@ async function run() {
 
     await optimizeToWebp(job);
     optimized += 1;
-    const label = decision.reason === 'new' ? 'Nova imagem' : 'Imagem atualizada';
+    const label =
+      decision.reason === 'new'
+        ? 'Nova imagem'
+        : decision.reason === 'derived'
+          ? 'Variante'
+          : 'Imagem atualizada';
     console.log(`${label} otimizada: ${relativeOutput}`);
   }
 
