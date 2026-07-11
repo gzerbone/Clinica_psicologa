@@ -352,12 +352,6 @@ header.scrolled .nav{
 .divider:nth-of-type(even) { padding-top: 40px; }
 .divider path{
   stroke:var(--olive); stroke-width:1.4; fill:none; stroke-linecap:round;
-  animation: divider-wave 7s ease-in-out infinite;
-}
-
-@keyframes divider-wave{
-  0%, 100% { d: path("M0 20 C 25 20, 32 5, 55 5 C 78 5, 84 35, 107 35 C 130 35, 136 5, 159 5 C 182 5, 188 20, 220 20"); }
-  50%     { d: path("M0 20 C 25 20, 32 35, 55 35 C 78 35, 84 5, 107 5 C 130 5, 136 35, 159 35 C 182 35, 188 20, 220 20"); }
 }
 
 section{ padding:100px 0; }
@@ -756,9 +750,10 @@ footer > .wrap {
 
 @media (prefers-reduced-motion: reduce){
   .blob{ animation:none; }
-  .divider path{ animation:none; }
   .breath-line path{ animation:none; stroke-dashoffset:0; }
   .reveal, .reveal-left, .reveal-right, .reveal-scale { opacity:1; transform:none; transition:none; }
+  /* Pausa o morph SMIL do divider */
+  .divider animate{ display:none; }
 }
 
 /* ---------- RESPONSIVE ---------- */

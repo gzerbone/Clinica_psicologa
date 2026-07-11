@@ -4,9 +4,25 @@ import heroImage from './assets/images/hero/barbara-hero.webp';
 import heroImageSm from './assets/images/hero/barbara-hero-sm.webp';
 import aboutImage from './assets/images/about/barbara-sobre.webp';
 
+const DIVIDER_PATH_A =
+  'M0 20 C 25 20, 32 5, 55 5 C 78 5, 84 35, 107 35 C 130 35, 136 5, 159 5 C 182 5, 188 20, 220 20';
+const DIVIDER_PATH_B =
+  'M0 20 C 25 20, 32 35, 55 35 C 78 35, 84 5, 107 5 C 130 5, 136 35, 159 35 C 182 35, 188 20, 220 20';
+
 const SectionDivider = () => (
-  <svg className="divider" viewBox="0 0 220 40">
-    <path d="M0 20 C 25 20, 32 5, 55 5 C 78 5, 84 35, 107 35 C 130 35, 136 5, 159 5 C 182 5, 188 20, 220 20"/>
+  <svg className="divider" viewBox="0 0 220 40" aria-hidden="true">
+    <path d={DIVIDER_PATH_A}>
+      {/* SMIL: morph do path funciona no Safari/iOS; CSS `d:` não anima lá */}
+      <animate
+        attributeName="d"
+        dur="7s"
+        repeatCount="indefinite"
+        calcMode="spline"
+        keyTimes="0;0.5;1"
+        keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+        values={`${DIVIDER_PATH_A};${DIVIDER_PATH_B};${DIVIDER_PATH_A}`}
+      />
+    </path>
   </svg>
 );
 
@@ -447,7 +463,7 @@ export default function App() {
 
         <section id="contato">
           <div className="cta-final reveal">
-            <span className="eyebrow" style={{ color: 'rgba(255,255,255,0.75)', justifyContent: 'center' }}>Vamos conversar?</span>
+            <span className="eyebrow" style={{ justifyContent: 'center' }}>Vamos conversar?</span>
             <h2 style={{ marginTop: '16px' }}>Dê o primeiro passo hoje.</h2>
             <p>Escreva contando um pouco do que te trouxe até aqui — eu respondo pessoalmente para combinarmos os próximos passos.</p>
             <a href="https://wa.me/557382061011?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20agendamento%20de%20sess%C3%B5es." className="btn btn-primary" target="_blank" rel="noopener noreferrer">Chamar no WhatsApp</a>
