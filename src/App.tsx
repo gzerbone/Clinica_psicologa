@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Instagram, ArrowUp } from 'lucide-react';
+import { Instagram, ArrowUp, Menu, X } from 'lucide-react';
 import heroImage from './assets/images/hero/barbara-hero.webp';
 import aboutImage from './assets/images/about/barbara-sobre.webp';
 
@@ -9,13 +9,19 @@ const ThreadsIcon = ({ size = 20, className = "" }) => (
   </svg>
 );
 
+const NAV_LINKS = [
+  { href: '#sobre', label: 'Sobre' },
+  { href: '#abordagem', label: 'Abordagem' },
+  { href: '#processo', label: 'Como funciona' },
+  { href: '#depoimentos', label: 'Depoimentos' },
+  { href: '#faq', label: 'Dúvidas' },
+] as const;
+
 export default function App() {
   const [showWhatsapp, setShowWhatsapp] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const closeMenu = () => setMenuOpen(false);
 
   useEffect(() => {
     const header = document.getElementById('siteHeader');
@@ -86,73 +92,74 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 960) setMenuOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('resize', onResize);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, []);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <div className="app-container">
+    <div className={`app-container${menuOpen ? ' menu-open' : ''}`}>
       <div className="scroll-progress-container">
         <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }}></div>
       </div>
       <header id="siteHeader">
         <div className="wrap nav">
-          <a href="#top" className="logo">Bárbara <span>Badaró</span></a>
+          <a href="#top" className="logo" onClick={closeMenu}>Bárbara <span>Badaró</span></a>
           <div className="nav-links nav-links-pill">
-            <a href="#sobre">Sobre</a>
-            <a href="#abordagem">Abordagem</a>
-            <a href="#processo">Como funciona</a>
-            <a href="#depoimentos">Depoimentos</a>
-            <a href="#faq">Dúvidas</a>
+            {NAV_LINKS.map((link) => (
+              <a key={link.href} href={link.href}>{link.label}</a>
+            ))}
           </div>
           <div className="nav-actions">
-            <a href="#contato" className="nav-cta">Agendar</a>
-            {/* Hamburger substitui o "Agendar" no mobile */}
+            <a href="#contato" className="nav-cta" onClick={closeMenu}>Agendar</a>
             <button
-              className="menu-trigger"
-              onClick={() => setMenuOpen(true)}
-              aria-label="Abrir menu"
+              type="button"
+              className="nav-toggle"
+              aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-expanded={menuOpen}
+              aria-controls="mobileNav"
+              onClick={() => setMenuOpen((open) => !open)}
             >
-              <span className="menu-trigger__bar"></span>
-              <span className="menu-trigger__bar"></span>
-              <span className="menu-trigger__bar menu-trigger__bar--short"></span>
+              {menuOpen ? <X size={22} strokeWidth={1.8} /> : <Menu size={22} strokeWidth={1.8} />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile nav modal */}
-      <div className={`mobile-menu-overlay ${menuOpen ? 'mobile-menu-overlay--open' : ''}`} onClick={closeMenu}>
-        <div className="mobile-menu-panel" onClick={e => e.stopPropagation()}>
-          <div className="mobile-menu-header">
-            <span className="mobile-menu-logo">Bárbara <span>Badaró</span></span>
-            <button className="mobile-menu-close" onClick={closeMenu} aria-label="Fechar menu">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M18 6 6 18M6 6l12 12"/>
-              </svg>
-            </button>
-          </div>
-          <nav className="mobile-menu-nav">
-            <a href="#sobre" onClick={closeMenu}>
-              <span className="mobile-menu-nav__num">01</span>Sobre
-            </a>
-            <a href="#abordagem" onClick={closeMenu}>
-              <span className="mobile-menu-nav__num">02</span>Abordagem
-            </a>
-            <a href="#processo" onClick={closeMenu}>
-              <span className="mobile-menu-nav__num">03</span>Como funciona
-            </a>
-            <a href="#depoimentos" onClick={closeMenu}>
-              <span className="mobile-menu-nav__num">04</span>Depoimentos
-            </a>
-            <a href="#faq" onClick={closeMenu}>
-              <span className="mobile-menu-nav__num">05</span>Dúvidas
-            </a>
-          </nav>
-          <a href="#contato" className="mobile-menu-cta" onClick={closeMenu}>
-            Agendar primeira sessão
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M5 12h14m-7-7 7 7-7 7"/>
-            </svg>
-          </a>
+      <div
+        className={`nav-backdrop${menuOpen ? ' open' : ''}`}
+        onClick={closeMenu}
+        aria-hidden={!menuOpen}
+      />
+      <nav id="mobileNav" className={`mobile-nav${menuOpen ? ' open' : ''}`} aria-hidden={!menuOpen}>
+        <div className="mobile-nav-links">
+          {NAV_LINKS.map((link) => (
+            <a key={link.href} href={link.href} onClick={closeMenu}>{link.label}</a>
+          ))}
         </div>
-      </div>
+        <a href="#contato" className="btn btn-primary mobile-nav-cta" onClick={closeMenu}>
+          Agendar primeira sessão
+        </a>
+      </nav>
 
       <main id="top" className="relative">
         {/* Animated Mesh Background Effects */}
@@ -162,66 +169,32 @@ export default function App() {
 
         <section className="hero">
           <div className="wrap hero-grid">
-            <div className="animate-fade-in-up hero-eyebrow-row">
-              <span className="eyebrow">Neuropsicologia · Terapia Cognitivo-Comportamental</span>
-            </div>
-            <div className="animate-fade-in-up hero-body-row">
+            <div className="animate-fade-in-up">
+              <span className="eyebrow">Neuropsicologia <span className="eyebrow-sep">·</span> <span className="eyebrow-full">Terapia Cognitivo-Comportamental (TCC)</span><span className="eyebrow-short">TCC</span></span>
               <h1>Um espaço para <em>organizar</em> o que pesa e seguir com mais clareza.</h1>
               <p className="lead">Atendimento individual para adultos, online e presencial, com foco em ansiedade, transições de vida e relacionamentos.</p>
               <div className="hero-actions">
                 <a href="#contato" className="btn btn-primary">Agendar primeira sessão</a>
                 <a href="#sobre" className="btn btn-ghost">Conhecer a abordagem</a>
               </div>
+              <div className="hero-note">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C9381" strokeWidth="2">
+                  <path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+                Sessões de 30 à 45 min · CRP 06/000000
+              </div>
             </div>
             <div className="hero-visual">
-              {/* Decorative glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#8C9381] to-[#B7C0C7] opacity-20 blur-3xl transform scale-110 rounded-full pointer-events-none"></div>
-
-              <div className="hero-card-wrap">
-                {/* Arched image card */}
-                <div className="blob">
-                  <img
-                    src={heroImage}
-                    alt="Retrato profissional da neuropsicóloga Bárbara Badaró"
-                    className="blob-img"
-                  />
-                  <div className="blob-overlay"></div>
-                </div>
-
-                {/* Floating bottom-left info card */}
-                <div className="hero-float-left">
-                  <div className="hero-float-left__header">
-                    <div>
-                      <p className="hero-float-left__label">Modalidade</p>
-                      <p className="hero-float-left__title">Online & Presencial</p>
-                    </div>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: 'rgba(46,47,40,0.5)' }}>
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                    </svg>
-                  </div>
-                  <div className="hero-float-left__body">
-                    <div>
-                      <p className="hero-float-left__info-label">CRP</p>
-                      <p className="hero-float-left__info-val">06/000000</p>
-                    </div>
-                    <div>
-                      <p className="hero-float-left__info-label">Sessão</p>
-                      <p className="hero-float-left__info-val">30–45 min</p>
-                    </div>
-                  </div>
-                  <div className="hero-float-left__bar"></div>
-                </div>
-
-                {/* Floating top-right status card */}
-                <div className="hero-float-right">
-                  <div className="hero-float-right__status">
-                    <span className="hero-float-right__dot"></span>
-                    <span>Agenda Aberta</span>
-                  </div>
-                  <p className="hero-float-right__label">Disponibilidade</p>
-                  <p className="hero-float-right__val">Consulte horários</p>
-                  <a href="https://wa.me/557382061011?text=Olá,%20Bárbara!%20Gostaria%20de%20verificar%20a%20disponibilidade%20de%20horários%20para%20uma%20consulta." className="hero-float-right__cta" target="_blank" rel="noopener noreferrer">Verificar</a>
-                </div>
+              {/* Decorative Glass Glow Behind Blob */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#8C9381] to-[#B7C0C7] opacity-30 blur-2xl transform scale-110 rounded-full pointer-events-none"></div>
+              
+              <div className="blob">
+                <img 
+                  src={heroImage}
+                  alt="Retrato profissional da neuropsicóloga Bárbara Badaró" 
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
