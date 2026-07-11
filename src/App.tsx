@@ -3,9 +3,9 @@ import { Instagram, ArrowUp, Menu, X } from 'lucide-react';
 import heroImage from './assets/images/hero/barbara-hero.webp';
 import aboutImage from './assets/images/about/barbara-sobre.webp';
 
-const ThreadsIcon = ({ size = 20, className = "" }) => (
-  <svg width={size} height={size} viewBox="0 0 192 192" fill="currentColor" className={className}>
-    <path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.2328C81.6116 63.5383 90.6052 61.6848 97.2286 61.6848C97.3051 61.6848 97.3819 61.6848 97.4576 61.6855C105.707 61.7381 111.932 64.1366 115.961 68.814C118.893 72.2193 120.854 76.925 121.825 82.8638C114.511 81.6207 106.601 81.2385 98.145 81.7233C74.3247 83.0954 59.0111 96.9879 60.0396 116.292C60.5615 126.084 65.4397 134.508 73.775 140.011C80.8224 144.663 89.899 146.938 99.3323 146.423C111.79 145.74 121.563 140.987 128.381 132.296C133.559 125.696 136.838 116.888 137.71 103.36C145.474 106.985 151.782 115.753 151.782 127.319C151.782 146.035 137.95 160.039 120.73 162.246C112.569 163.292 104.793 163.782 97.2286 163.782C94.5262 163.782 91.8797 163.69 89.2891 163.498C76.2891 162.536 64.9126 158.455 57.0673 151.815C49.1925 145.148 44.8087 135.856 44.8087 124.965C44.8087 113.626 49.3394 104.28 57.5186 97.4339C65.5562 90.7067 76.9863 86.879 90.0094 86.4172C94.3986 86.2625 98.9248 86.2981 103.684 86.5363C104.382 86.5756 105.077 86.6206 105.772 86.671C105.792 86.3263 105.807 85.9818 105.819 85.6375C105.908 82.6851 105.518 79.9405 104.665 77.4727C101.996 69.7214 93.6335 68.648 89.2618 68.7408C86.7214 68.7946 84.4229 69.4316 82.3551 70.6698L75.3377 56.4019C80.8906 53.0768 87.5255 51.5204 94.6715 51.5204C106.942 51.5204 116.892 56.1265 122.95 64.4411C128.473 72.019 130.638 82.4631 129.576 95.3409C134.425 98.4411 138.384 102.502 141.537 107.568V88.9883ZM98.8143 133.056C105.564 132.669 110.631 129.626 113.439 124.084C115.548 119.92 116.516 114.73 116.422 108.625C114.187 106.916 111.411 105.474 108.156 104.39C104.811 103.275 101.401 102.683 98.0205 102.637C88.084 102.5 82.9022 105.932 82.4764 111.839C82.2612 114.812 83.6508 117.391 86.4257 119.294C89.5167 121.414 93.7431 122.428 98.8143 123.056V133.056Z"/>
+const SectionDivider = () => (
+  <svg className="divider" viewBox="0 0 220 40">
+    <path d="M0 20 C 25 20, 32 5, 55 5 C 78 5, 84 35, 107 35 C 130 35, 136 5, 159 5 C 182 5, 188 20, 220 20"/>
   </svg>
 );
 
@@ -16,6 +16,38 @@ const NAV_LINKS = [
   { href: '#depoimentos', label: 'Depoimentos' },
   { href: '#faq', label: 'Dúvidas' },
 ] as const;
+
+// Objeto de configuração — edite aqui para ajustar os blurs dos cantos e elementos decorativos
+const MESH_CONFIG = {
+  topLeft: {
+    size: '700px',       // tamanho do círculo
+    opacity: '0.55',     // opacidade (0 a 1)
+    blur: '140px',       // intensidade do blur
+    color: '#B7C0C7',    // cor (azul-acinzentado)
+    top: '-10%',
+    left: '-10%',
+  },
+  bottomRight: {
+    size: '600px',
+    opacity: '0.45',
+    blur: '140px',
+    color: '#8C9381',    // cor (sálvia)
+    bottom: '-10%',
+    right: '-10%',
+  },
+  midRight: {
+    size: '380px',
+    opacity: '0.30',
+    blur: '110px',
+    color: '#85866A',    // cor (oliva)
+    top: '20%',
+    right: '10%',
+  },
+  blobGlow: {
+    opacity: '0.40',
+    blur: '48px',   // blur-2xl = 40px, aumentado para 48px
+  },
+};
 
 export default function App() {
   const [showWhatsapp, setShowWhatsapp] = useState(false);
@@ -163,14 +195,47 @@ export default function App() {
 
       <main id="top" className="relative">
         {/* Animated Mesh Background Effects */}
-        <div className="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#B7C0C7]/40 rounded-full blur-[120px] pointer-events-none z-[0]"></div>
-        <div className="fixed bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#8C9381]/30 rounded-full blur-[120px] pointer-events-none z-[0]"></div>
-        <div className="fixed top-[20%] right-[10%] w-[300px] h-[300px] bg-[#85866A]/20 rounded-full blur-[100px] pointer-events-none z-[0]"></div>
+        <div 
+          className="fixed rounded-full pointer-events-none z-[0]"
+          style={{ 
+            top: MESH_CONFIG.topLeft.top, 
+            left: MESH_CONFIG.topLeft.left, 
+            width: MESH_CONFIG.topLeft.size, 
+            height: MESH_CONFIG.topLeft.size, 
+            backgroundColor: MESH_CONFIG.topLeft.color, 
+            opacity: MESH_CONFIG.topLeft.opacity, 
+            filter: `blur(${MESH_CONFIG.topLeft.blur})` 
+          }}
+        ></div>
+        <div 
+          className="fixed rounded-full pointer-events-none z-[0]"
+          style={{ 
+            bottom: MESH_CONFIG.bottomRight.bottom, 
+            right: MESH_CONFIG.bottomRight.right, 
+            width: MESH_CONFIG.bottomRight.size, 
+            height: MESH_CONFIG.bottomRight.size, 
+            backgroundColor: MESH_CONFIG.bottomRight.color, 
+            opacity: MESH_CONFIG.bottomRight.opacity, 
+            filter: `blur(${MESH_CONFIG.bottomRight.blur})` 
+          }}
+        ></div>
+        <div 
+          className="fixed rounded-full pointer-events-none z-[0]"
+          style={{ 
+            top: MESH_CONFIG.midRight.top, 
+            right: MESH_CONFIG.midRight.right, 
+            width: MESH_CONFIG.midRight.size, 
+            height: MESH_CONFIG.midRight.size, 
+            backgroundColor: MESH_CONFIG.midRight.color, 
+            opacity: MESH_CONFIG.midRight.opacity, 
+            filter: `blur(${MESH_CONFIG.midRight.blur})` 
+          }}
+        ></div>
 
         <section className="hero">
           <div className="wrap hero-grid">
             <div className="animate-fade-in-up">
-              <span className="eyebrow">Neuropsicologia <span className="eyebrow-sep">·</span> <span className="eyebrow-full">Terapia Cognitivo-Comportamental (TCC)</span><span className="eyebrow-short">TCC</span></span>
+              <span className="eyebrow">Neuropsicologia <span className="eyebrow-sep">·</span> <span className="eyebrow-full">Terapia Cognitivo-Comportamental</span><span className="eyebrow-short">TCC</span></span>
               <h1>Um espaço para <em>organizar</em> o que pesa e seguir com mais clareza.</h1>
               <p className="lead">Atendimento individual para adultos, online e presencial, com foco em ansiedade, transições de vida e relacionamentos.</p>
               <div className="hero-actions">
@@ -187,7 +252,13 @@ export default function App() {
             </div>
             <div className="hero-visual">
               {/* Decorative Glass Glow Behind Blob */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#8C9381] to-[#B7C0C7] opacity-30 blur-2xl transform scale-110 rounded-full pointer-events-none"></div>
+              <div 
+                className="absolute inset-0 bg-gradient-to-br from-[#8C9381] to-[#B7C0C7] transform scale-110 rounded-full pointer-events-none"
+                style={{ 
+                  opacity: MESH_CONFIG.blobGlow.opacity, 
+                  filter: `blur(${MESH_CONFIG.blobGlow.blur})` 
+                }}
+              ></div>
               
               <div className="blob">
                 <img 
@@ -199,6 +270,8 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        <SectionDivider />
 
         <section className="sobre" id="sobre">
           <div className="wrap sobre-grid">
@@ -222,9 +295,7 @@ export default function App() {
           </div>
         </section>
 
-        <svg className="divider" viewBox="0 0 220 40">
-          <path d="M0 20 C 25 20, 32 5, 55 5 C 78 5, 84 35, 107 35 C 130 35, 136 5, 159 5 C 182 5, 188 20, 220 20"/>
-        </svg>
+        <SectionDivider />
 
         <section id="abordagem">
           <div className="wrap">
@@ -237,35 +308,39 @@ export default function App() {
               <div className="card reveal delay-1">
                 <div className="icon">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6E6F58" strokeWidth="1.8">
-                    <path d="M12 21c-4-3-8-6-8-11a5 5 0 019-3 5 5 0 019 3c0 5-4 8-8 11z"/>
+                    <circle cx="12" cy="12" r="9"/>
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 3v2M12 19v2M3 12h2M19 12h2"/>
                   </svg>
                 </div>
-                <h3>Ansiedade</h3>
-                <p>Ferramentas práticas para lidar com pensamentos acelerados, preocupação excessiva e crises de ansiedade.</p>
+                <h3>Autoconhecimento e Terapia</h3>
+                <p>Reflexões sobre emoções, comportamentos e crescimento pessoal — para se entender com mais clareza.</p>
               </div>
               <div className="card reveal delay-2">
                 <div className="icon">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6E6F58" strokeWidth="1.8">
-                    <path d="M3 12h4l3 8 4-16 3 8h4"/>
+                    <path d="M12 21c-4-3-8-6-8-11a5 5 0 019-3 5 5 0 019 3c0 5-4 8-8 11z"/>
                   </svg>
                 </div>
-                <h3>Transições de vida</h3>
-                <p>Mudanças de carreira, luto, maternidade/paternidade e outros momentos que pedem reorganização.</p>
+                <h3>Ansiedade, depressão e TDAH</h3>
+                <p>Conteúdos e ferramentas para entender, acolher e lidar melhor com seus desafios do dia a dia.</p>
               </div>
               <div className="card reveal delay-3">
                 <div className="icon">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6E6F58" strokeWidth="1.8">
-                    <circle cx="9" cy="9" r="3"/>
-                    <circle cx="17" cy="14" r="3"/>
-                    <path d="M6 21c0-3 2-5 3-5M20 21c0-3-2-5-3-5"/>
+                    <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                    <path d="M8 7h8M8 11h6"/>
                   </svg>
                 </div>
-                <h3>Relacionamentos</h3>
-                <p>Padrões de vínculo, comunicação e limites — em relações familiares, afetivas e de trabalho.</p>
+                <h3>Transtornos psicológicos</h3>
+                <p>Psicoeducação acessível, sem rótulos e com mais consciência sobre o que você vive.</p>
               </div>
             </div>
           </div>
         </section>
+
+        <SectionDivider />
 
         <section className="processo" id="processo">
           <div className="wrap">
@@ -277,7 +352,7 @@ export default function App() {
               <div className="step reveal delay-1">
                 <span className="step-num">01</span>
                 <h3>Contato inicial</h3>
-                <p>Você me chama por WhatsApp ou pelo formulário e contamos, em poucas palavras, o que te trouxe até aqui.</p>
+                <p>Você me chama por WhatsApp e contamos, em poucas palavras, o que te trouxe até aqui.</p>
               </div>
               <div className="step reveal delay-2">
                 <span className="step-num">02</span>
@@ -297,6 +372,8 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        <SectionDivider />
 
         <section id="depoimentos">
           <div className="wrap">
@@ -324,9 +401,7 @@ export default function App() {
           </div>
         </section>
 
-        <svg className="divider" viewBox="0 0 220 40">
-          <path d="M0 20 C 25 20, 32 5, 55 5 C 78 5, 84 35, 107 35 C 130 35, 136 5, 159 5 C 182 5, 188 20, 220 20"/>
-        </svg>
+        <SectionDivider />
 
         <section id="faq">
           <div className="wrap">
@@ -355,6 +430,8 @@ export default function App() {
           </div>
         </section>
 
+        <SectionDivider />
+
         <section id="contato">
           <div className="cta-final reveal">
             <span className="eyebrow" style={{ color: 'rgba(255,255,255,0.75)', justifyContent: 'center' }}>Vamos conversar?</span>
@@ -367,37 +444,87 @@ export default function App() {
       </main>
 
       <footer>
+        {/* Onda animada no topo */}
+        <div className="footer-wave-wrap" aria-hidden="true">
+          <svg className="footer-wave-svg" viewBox="0 0 2880 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0,100 L2880,100 L2880,50 C2520,50 2520,90 2160,90 C1800,90 1800,50 1440,50 C1080,50 1080,90 720,90 C360,90 360,50 0,50 Z"
+              fill="var(--footer-bg)"
+            />
+          </svg>
+        </div>
+
+        {/* Faixa marquee — conteúdo se move horizontalmente */}
+        <div className="footer-marquee-strip" aria-hidden="true">
+          {[0, 1].map(i => (
+            <div key={i} className="footer-marquee-content">
+              <span className="fmq-item">Bárbara Badaró</span>
+              <span className="fmq-sep" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 20v-8"/><path d="M4 20h16"/>
+                  <path d="M12 4C7.5 4 4 7.5 4 12c0 2.5 1.1 4.8 2.9 6.3"/>
+                  <path d="M12 4c4.5 0 8 3.5 8 8 0 2.5-1.1 4.8-2.9 6.3"/>
+                </svg>
+              </span>
+              <span className="fmq-item">Neuropsicóloga</span>
+              <span className="fmq-sep" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9.5 2A5.5 5.5 0 0 0 4 7.5C4 9 4.5 10.4 5.5 11.5c-1 .6-1.5 1.7-1.5 2.8A3.2 3.2 0 0 0 7 17.5v.5A3 3 0 0 0 10 21h4a3 3 0 0 0 3-3v-.5a3.2 3.2 0 0 0 3-3.2c0-1.1-.5-2.2-1.5-2.8 1-1.1 1.5-2.5 1.5-4A5.5 5.5 0 0 0 14.5 2"/>
+                  <path d="M12 2v19"/><path d="M9 7c-1.5 1-2 2.5-2 4"/><path d="M15 7c1.5 1 2 2.5 2 4"/>
+                </svg>
+              </span>
+              <span className="fmq-item">TCC</span>
+              <span className="fmq-sep" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                  <path d="M3.22 12H9.5l1.5-3 2 5 1.5-3h3.78"/>
+                </svg>
+              </span>
+              <a href="https://instagram.com/barbarabadarom" target="_blank" rel="noopener noreferrer" className="fmq-item fmq-social">
+                <Instagram size={24} /> barbarabadarom
+              </a>
+              <span className="fmq-sep" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                </svg>
+              </span>
+              <span className="fmq-item ghost">Bárbara Badaró</span>
+              <span className="fmq-sep ghost" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                  <path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>
+                </svg>
+              </span>
+              <span className="fmq-item ghost">Neuropsicóloga</span>
+              <span className="fmq-sep ghost" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 20v-8"/><path d="M4 20h16"/>
+                  <path d="M12 4C7.5 4 4 7.5 4 12c0 2.5 1.1 4.8 2.9 6.3"/>
+                  <path d="M12 4c4.5 0 8 3.5 8 8 0 2.5-1.1 4.8-2.9 6.3"/>
+                </svg>
+              </span>
+              <span className="fmq-item ghost">TCC</span>
+              <span className="fmq-sep ghost" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9.5 2A5.5 5.5 0 0 0 4 7.5C4 9 4.5 10.4 5.5 11.5c-1 .6-1.5 1.7-1.5 2.8A3.2 3.2 0 0 0 7 17.5v.5A3 3 0 0 0 10 21h4a3 3 0 0 0 3-3v-.5a3.2 3.2 0 0 0 3-3.2c0-1.1-.5-2.2-1.5-2.8 1-1.1 1.5-2.5 1.5-4A5.5 5.5 0 0 0 14.5 2"/>
+                  <path d="M12 2v19"/><path d="M9 7c-1.5 1-2 2.5-2 4"/><path d="M15 7c1.5 1 2 2.5 2 4"/>
+                </svg>
+              </span>
+              <a href="https://instagram.com/barbarabadarom" target="_blank" rel="noopener noreferrer" className="fmq-item fmq-social ghost">
+                <Instagram size={24} /> barbarabadarom
+              </a>
+              <span className="fmq-sep ghost" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                  <path d="M3.22 12H9.5l1.5-3 2 5 1.5-3h3.78"/>
+                </svg>
+              </span>
+            </div>
+          ))}
+        </div>
+
         <div className="wrap">
-          <div className="footer-grid">
-            <div>
-              <a href="#top" className="logo">Bárbara <span>Badaró</span></a>
-              <p style={{ marginTop: '14px', color: 'var(--ink-soft)', fontSize: '14.5px', maxWidth: '280px' }}>Neuropsicóloga · Terapia Cognitivo-Comportamental para adultos.</p>
-            </div>
-            <div className="footer-cols">
-              <div className="footer-col">
-                <h4>Navegação</h4>
-                <a href="#sobre">Sobre</a>
-                <a href="#abordagem">Abordagem</a>
-                <a href="#faq">Dúvidas</a>
-              </div>
-              <div className="footer-col">
-                <h4>Contato</h4>
-                <a href="https://wa.me/557382061011?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20agendamento%20de%20sess%C3%B5es." target="_blank" rel="noopener noreferrer">WhatsApp</a>
-                <a href="mailto:contato@barbarabadaro.com.br">contato@barbarabadaro.com.br</a>
-              </div>
-              <div className="footer-col">
-                <h4>Redes Sociais</h4>
-                <a href="https://instagram.com/barbarabadaro" target="_blank" rel="noopener noreferrer">
-                  <Instagram size={18} />
-                  Instagram
-                </a>
-                <a href="https://threads.net/@barbarabadaro" target="_blank" rel="noopener noreferrer">
-                  <ThreadsIcon size={18} />
-                  Threads
-                </a>
-              </div>
-            </div>
-          </div>
           <div className="footer-bottom">
             <span>© 2026 Bárbara Badaró Neuropsicologia · CRP 06/000000</span>
             <span>Em caso de urgência, ligue para o CVV: 188</span>

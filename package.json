@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "npm run images:optimize",
     "dev": "vite --port=3000 --host=0.0.0.0",
     "prebuild": "npm run images:optimize",
     "build": "vite build",
