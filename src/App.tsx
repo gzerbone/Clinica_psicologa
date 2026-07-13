@@ -448,10 +448,6 @@ export default function App() {
                 <div className="faq-a"><p>No início do processo, o ideal é frequência semanal — isso favorece a construção do vínculo terapêutico e o avanço das demandas trazidas.</p></div>
               </div>
               <div className="faq-item">
-                <button className="faq-q"><span>Você emite recibo para reembolso do plano de saúde?</span><span className="plus"></span></button>
-                <div className="faq-a"><p>Sim, emito recibo para que você solicite reembolso ao seu convênio. O processo de aprovação, no entanto, depende exclusivamente do seu plano.</p></div>
-              </div>
-              <div className="faq-item">
                 <button className="faq-q"><span>Como sei se a TCC é indicada para o meu caso?</span><span className="plus"></span></button>
                 <div className="faq-a"><p>Na sessão de avaliação, conversamos sobre sua história e demandas para verificar se essa abordagem é a mais indicada — e, se não for, te oriento sobre outros caminhos possíveis.</p></div>
               </div>
