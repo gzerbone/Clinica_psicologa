@@ -148,6 +148,33 @@ export default function App() {
     };
   }, [menuOpen]);
 
+  // Ao chegar de outra página (ex.: /menu) com um link do tipo /#secao,
+  // o navegador tenta rolar antes do React renderizar a seção, e o
+  // carregamento de fontes/imagens ainda pode deslocar o layout depois.
+  // Por isso refazemos a rolagem em alguns momentos-chave até estabilizar.
+  useEffect(() => {
+    if (!window.location.hash) return;
+    const targetId = window.location.hash.slice(1);
+    let cancelled = false;
+    const scrollToTarget = (behavior: ScrollBehavior) => {
+      const target = document.getElementById(targetId);
+      if (target) target.scrollIntoView({ behavior, block: 'start' });
+    };
+
+    scrollToTarget('auto');
+    const handleSettle = () => { if (!cancelled) scrollToTarget('smooth'); };
+
+    document.fonts?.ready?.then(handleSettle);
+    window.addEventListener('load', handleSettle);
+    const timeoutId = window.setTimeout(handleSettle, 500);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener('load', handleSettle);
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
+
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth > 960) setMenuOpen(false);
@@ -408,6 +435,82 @@ export default function App() {
                 <h3>Acompanhamento</h3>
                 <p>Sessões regulares, com revisão periódica do progresso e ajustes sempre que necessário.</p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <SectionDivider />
+
+        <section className="avaliacao" id="avaliacao-neuropsicologica">
+          <div className="wrap">
+            <div className="section-head center reveal-scale">
+              <span className="eyebrow" style={{ justifyContent: 'center' }}>Avaliação neuropsicológica</span>
+              <h2>Como funciona a avaliação neuropsicológica</h2>
+              <p>Um processo estruturado de investigação cognitiva e comportamental, que usa testes padronizados e validados cientificamente para entender como você pensa, memoriza, se concentra e toma decisões.</p>
+            </div>
+
+            <div className="avaliacao-grid">
+              <div className="avaliacao-panel reveal-left">
+                <h3>Quando é indicada</h3>
+                <ul className="avaliacao-list">
+                  <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C9381" strokeWidth="2.2"><path d="M20 6 9 17l-5-5"/></svg>
+                    Dificuldades de atenção, memória ou aprendizagem
+                  </li>
+                  <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C9381" strokeWidth="2.2"><path d="M20 6 9 17l-5-5"/></svg>
+                    Investigação de TDAH, TEA e outros quadros
+                  </li>
+                  <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C9381" strokeWidth="2.2"><path d="M20 6 9 17l-5-5"/></svg>
+                    Queixas cognitivas em qualquer fase da vida
+                  </li>
+                  <li>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C9381" strokeWidth="2.2"><path d="M20 6 9 17l-5-5"/></svg>
+                    Suporte a laudos para escola, trabalho ou processos legais
+                  </li>
+                </ul>
+              </div>
+              <div className="avaliacao-panel reveal-right">
+                <h3>Informações práticas</h3>
+                <div className="credentials">
+                  <div className="credential-item"><span className="num">4 a 6</span><span className="label">encontros, em média</span></div>
+                  <div className="credential-item"><span className="num">100%</span><span className="label">presencial, com testes validados</span></div>
+                  <div className="credential-item"><span className="num">Laudo</span><span className="label">completo, com devolutiva explicada</span></div>
+                  <div className="credential-item"><span className="num">Sigilo</span><span className="label">ético garantido em todo o processo</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="avaliacao-steps-head reveal-scale">
+              <h3>Etapas do processo</h3>
+            </div>
+            <div className="steps">
+              <div className="step reveal delay-1">
+                <span className="step-num">01</span>
+                <h3>Entrevista inicial</h3>
+                <p>Conversa detalhada sobre histórico, queixas e objetivos, para planejar os instrumentos mais adequados ao seu caso.</p>
+              </div>
+              <div className="step reveal delay-2">
+                <span className="step-num">02</span>
+                <h3>Aplicação dos testes</h3>
+                <p>Testes padronizados e validados cientificamente, aplicados em sessões específicas de acordo com a demanda.</p>
+              </div>
+              <div className="step reveal delay-3">
+                <span className="step-num">03</span>
+                <h3>Análise dos resultados</h3>
+                <p>Interpretação técnica dos dados, cruzando testes, entrevista e observações clínicas ao longo do processo.</p>
+              </div>
+              <div className="step reveal delay-4">
+                <span className="step-num">04</span>
+                <h3>Devolutiva e laudo</h3>
+                <p>Entrega do laudo e conversa para explicar os resultados, com orientações claras sobre os próximos passos.</p>
+              </div>
+            </div>
+
+            <div className="avaliacao-cta reveal">
+              <p>Ficou com dúvidas ou quer saber se a avaliação neuropsicológica é indicada para o seu caso?</p>
+              <a href="https://wa.me/557382061011?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20a%20avalia%C3%A7%C3%A3o%20neuropsicol%C3%B3gica." className="btn btn-primary" target="_blank" rel="noopener noreferrer">Agendar avaliação</a>
             </div>
           </div>
         </section>
