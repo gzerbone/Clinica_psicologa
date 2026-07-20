@@ -253,8 +253,8 @@ export default function App() {
           <div className="wrap hero-grid">
             <div className="animate-fade-in-up">
               <span className="eyebrow">Neuropsicologia <span className="eyebrow-sep">·</span> <span className="eyebrow-full">Terapia Cognitivo-Comportamental</span><span className="eyebrow-short">TCC</span></span>
-              <h1>Um espaço para <em>organizar</em> o que pesa e seguir com mais clareza.</h1>
-              <p className="lead">Atendimento individual para adultos, online e presencial, com foco em ansiedade, transições de vida e relacionamentos.</p>
+              <h1>Avaliação <em>neuropsicológica</em> e acompanhamento psicológico, online e presencial.</h1>
+              <p className="lead">Investigação cognitiva e cuidado emocional para orientar diagnóstico, tratamento e decisões do dia a dia.</p>
               <div className="hero-actions">
                 <a href="#contato" className="btn btn-primary">Agendar primeira sessão</a>
                 <a href="#sobre" className="btn btn-ghost">Conhecer a abordagem</a>
@@ -264,7 +264,7 @@ export default function App() {
                   <path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
                   <path d="M12 6v6l4 2"/>
                 </svg>
-                Sessões de 30 à 45 min · CRP 06/000000
+                Sessões de 30 à 45 min · CRP 03/6014
               </div>
             </div>
             <div className="hero-visual">
@@ -312,12 +312,12 @@ export default function App() {
             <div className="reveal-right">
               <span className="eyebrow">Sobre mim</span>
               <h2 style={{ marginTop: '16px', fontSize: 'clamp(26px,3vw,36px)' }}>Terapia como prática, não só conversa.</h2>
-              <p className="quote">"Acredito que mudança real acontece quando entendemos os padrões por trás do que sentimos — e praticamos, sessão após sessão, novas formas de responder à vida."</p>
-              <p style={{ color: 'var(--ink-soft)', maxWidth: '520px' }}>Sou neuropsicóloga e psicóloga clínica, especialista em Terapia Cognitivo-Comportamental (TCC). Atendo adultos há mais de 18 anos, sempre com base em evidências científicas e respeito ao tempo de cada processo.</p>
+              <p className="quote">"Um processo baseado em evidências, que transforma conhecimento em estratégias para promover mudanças reais e duradouras."</p>
+              <p style={{ color: 'var(--ink-soft)', maxWidth: '520px' }}>Sou <strong>Bárbara Badaró</strong>, psicóloga clínica, especialista em <strong>Terapia Cognitivo-Comportamental (TCC)</strong>  e <strong>Neuropsicologia</strong>, com mais de 18 anos de experiência na promoção da saúde mental e do desenvolvimento humano. Mais do que tratar sintomas, acredito em um cuidado que promove autonomia, fortalece potencialidades e respeita a singularidade de cada história.</p>
               <div className="credentials">
                 <div className="credential-item"><span className="num">+18</span><span className="label">anos de prática clínica</span></div>
-                <div className="credential-item"><span className="num">CRP</span><span className="label">06/000000 — regularizada</span></div>
-                <div className="credential-item"><span className="num">TCC</span><span className="label">especialização em terapia baseada em evidências</span></div>
+                <div className="credential-item"><span className="num">CRP</span><span className="label">03/6014 — regularizada</span></div>
+                <div className="credential-item"><span className="num">TCC/Neuropsicologia</span><span className="label">especialização em terapia baseada em evidências</span></div>
                 <div className="credential-item"><span className="num">100%</span><span className="label">online ou presencial, à sua escolha</span></div>
               </div>
             </div>
@@ -331,7 +331,7 @@ export default function App() {
             <div className="section-head center reveal-scale">
               <span className="eyebrow" style={{ justifyContent: 'center' }}>Áreas de atuação</span>
               <h2>Onde posso ajudar</h2>
-              <p>Cada processo é único, mas alguns temas aparecem com frequência no consultório.</p>
+              <p>Promoção da saúde emocional, desenvolvimento de habilidades e tratamento de demandas psicológicas para o seu bem-estar.</p>
             </div>
             <div className="cards">
               <div className="card reveal delay-1">
@@ -365,6 +365,16 @@ export default function App() {
                 <h3>Transtornos psicológicos</h3>
                 <p>Psicoeducação acessível, sem rótulos e com mais consciência sobre o que você vive.</p>
               </div>
+              <div className="card reveal delay-4">
+                <div className="icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6E6F58" strokeWidth="1.8">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                </div>
+                <h3>Avaliação neuropsicológica</h3>
+                <p>Investigação cognitiva para suporte ao diagnóstico, planejamento clínico e promoção da saúde emocional.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -381,17 +391,17 @@ export default function App() {
               <div className="step reveal delay-1">
                 <span className="step-num">01</span>
                 <h3>Contato inicial</h3>
-                <p>Você me chama por WhatsApp e contamos, em poucas palavras, o que te trouxe até aqui.</p>
+                <p>Tudo começa com uma conversa por WhatsApp. Nossa equipe esclarece suas dúvidas, explica o funcionamento do atendimento e auxilia no agendamento da sua consulta de forma simples e acolhedora.</p>
               </div>
               <div className="step reveal delay-2">
                 <span className="step-num">02</span>
-                <h3>Sessão de avaliação</h3>
-                <p>Uma conversa inicial mais longa, para entender sua história e definir se seguimos juntas.</p>
+                <h3>1ª sessão</h3>
+                <p>A primeira sessão é um momento de acolhimento e escuta. Nela, conversamos sobre sua história, as dificuldades que motivaram a busca por terapia, seus objetivos e expectativas em relação ao processo.</p>
               </div>
               <div className="step reveal delay-3">
                 <span className="step-num">03</span>
                 <h3>Plano terapêutico</h3>
-                <p>Definimos objetivos claros e a frequência das sessões — geralmente semanal, no início.</p>
+                <p>Aqui começamos a construir, juntos, um plano terapêutico personalizado, respeitando seu tempo, suas necessidades e sua singularidade. Definimos frequência e estratégias.</p>
               </div>
               <div className="step reveal delay-4">
                 <span className="step-num">04</span>
@@ -551,7 +561,7 @@ export default function App() {
 
         <div className="wrap">
           <div className="footer-bottom">
-            <span>© 2026 Bárbara Badaró Neuropsicologia · CRP 06/000000</span>
+            <span>© 2026 Bárbara Badaró Neuropsicologia · CRP 03/6014</span>
             <span>Em caso de urgência, ligue para o CVV: 188</span>
           </div>
         </div>
